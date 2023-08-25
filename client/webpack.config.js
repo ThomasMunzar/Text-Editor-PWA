@@ -25,7 +25,7 @@ module.exports = () => {
       new InjectManifest({
         swSrc: './src-sw.js',
         swDest: 'service-worker.js',
-      }), 
+      }),
       new GenerateSW(),
       new WebpackPwaManifest({
         name: 'Text-Editor 8000',
@@ -58,7 +58,9 @@ module.exports = () => {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
-              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+              plugins: [
+                '@babel/plugin-proposal-object-rest-spread',
+                '@babel/transform-runtime'],
             },
           },
         },
