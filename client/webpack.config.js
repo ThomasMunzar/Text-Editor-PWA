@@ -17,15 +17,19 @@ module.exports = () => {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
+    
     plugins: [
+      //generates new html page with all necessary links (routes/images...)
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'Text-Editor 8000'
       }),
+      //creating cache
       new InjectManifest({
         swSrc: './src-sw.js',
         swDest: 'service-worker.js',
       }),
+      //creates downloadable PWA
       new GenerateSW(),
       new WebpackPwaManifest({
         name: 'Text-Editor 8000',
@@ -39,6 +43,7 @@ module.exports = () => {
           {
             src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
+            //created directory assets and directory icons and will save 6 images of different sized (we only listed 6 diff sizes it could be more or less.)
             destination: path.join('assets', 'icons'),
           },
         ],
@@ -52,15 +57,15 @@ module.exports = () => {
           use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.m?js$/,
-          exclude: /node_modules/,
+          test: /\.m?js$/,// looking for .mjs or .js files
+          exclude: /node_modules/, //excluing node_models
           use: {
-            loader: 'babel-loader',
+            loader: 'babel-loader', //makes js regaurdless of how it was written compatible to different environments
             options: {
-              presets: ['@babel/preset-env'],
+              presets: ['@babel/preset-env'],//environment of browser being used
               plugins: [
-                '@babel/plugin-proposal-object-rest-spread',
-                '@babel/transform-runtime'],
+                '@babel/plugin-proposal-object-rest-spread',//using es6 syntax with spread opperator
+                '@babel/transform-runtime'],// reduced on duplication (reduces on size of the package)
             },
           },
         },
