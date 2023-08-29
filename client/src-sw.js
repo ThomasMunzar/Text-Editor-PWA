@@ -5,6 +5,8 @@ const { CacheableResponsePlugin } = require('workbox-cacheable-response');
 const { ExpirationPlugin } = require('workbox-expiration');
 const { precacheAndRoute } = require('workbox-precaching/precacheAndRoute');
 
+
+
 precacheAndRoute(self.__WB_MANIFEST); 
 //^^this is allows pwa to work offline by caching all the assets and setting up the routes
 
@@ -32,10 +34,18 @@ registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
 // TODO: Implement asset caching
 
-
 registerRoute(
-  //style, script, worker
-// staleWhile (revalidate)
+  // Here we define the callback function that will filter the requests we want to cache (in this case, JS and CSS files)
+  ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+  new StaleWhileRevalidate({
+    // Name of the cache storage.
+    cacheName: 'asset-cache',
+    plugins: [
+      // This plugin will cache responses with these headers to a maximum-age of 30 days
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
 );
 
-//offlineFallback function
