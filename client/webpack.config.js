@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WebpackPwaManifest = require ('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest, GenerateSW } = require('workbox-webpack-plugin');
 
@@ -27,7 +27,7 @@ module.exports = () => {
       //creating cache
       new InjectManifest({
         swSrc: './src-sw.js',
-        swDest: 'service-worker.js',
+        swDest: 'src-sw.js',
       }),
       // creates downloadable PWA
       // new GenerateSW(),
